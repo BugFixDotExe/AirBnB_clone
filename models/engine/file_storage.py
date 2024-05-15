@@ -1,4 +1,5 @@
 import os
+import json
 
 class FileStorage:
     """Class for storing and managing objects in a JSON file.
@@ -14,20 +15,20 @@ class FileStorage:
         reload(self): Load serialized objects from the JSON file.
     """
 
-    __file_path = None
+    __file_path = "file.json"
     __objects = dict()
 
     def all(self):
         """Return a dictionary of all objects currently stored."""
+        return self.__objects
 
-        print("Well this is rather fitting.")
     def new(self, obj):
         """Add a new object to the storage dictionary.
 
         Args:
             obj: The object to be added to the storage dictionary.
         """
-        pass
+        self.__objects["{:s}".format(obj.__class__.__name__)] = obj
 
     def save(self):
         """
@@ -40,6 +41,6 @@ class FileStorage:
         """
         reload(self): Load serialized objects from the JSON file.
         """
-        if os.path.exist(self.__file_path):
+        if os.path.exists(self.__file_path):
             with open(self.__file_path, mode="r", encoding="UTF-8") as file_s:
                 self.__objects = dict(json.load(file_s)).copy()
