@@ -50,12 +50,13 @@ class BaseModel:
         Returns:
             dict: Dictionary representation of the instance.
         """
+        temp_dict = self.__dict__.copy()
         self.created_at = self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
         self.updated_at = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        setattr(self, "created_at", self.created_at)
-        setattr(self, "updated_at", self.created_at)
-        self.__dict__["__class__"] = self.__class__.__name__
-        return self.__dict__
+        temp_dict["created_at"] = self.created_at
+        temp_dict["updated_at"] = self.created_at
+        temp_dict["__class__"] = self.__class__.__name__
+        return temp_dict
 
     def __str__(self):
         """

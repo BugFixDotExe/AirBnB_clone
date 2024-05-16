@@ -28,7 +28,7 @@ class FileStorage:
         Args:
             obj: The object to be added to the storage dictionary.
         """
-        self.__objects["{:s}".format(obj.__class__.__name__)] = obj
+        self.__objects["{:s}.{:s}".format(obj.__class__.__name__, obj.id)] = obj.to_dict()
 
     def save(self):
         """
@@ -43,4 +43,4 @@ class FileStorage:
         """
         if os.path.exists(self.__file_path):
             with open(self.__file_path, mode="r", encoding="UTF-8") as file_s:
-                self.__objects = dict(json.load(file_s)).copy()
+                pass
