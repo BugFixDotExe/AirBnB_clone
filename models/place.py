@@ -1,11 +1,10 @@
 from models.base_model import BaseModel
 
 
- """Place that represents  a place in the AirBnB properties.
-
-    Attributes:
+"""Place that represents  a place in the AirBnB properties.
+Attributes:
     city_id (str): A city in the city
-    user_id (str): A user Id 
+    user_id (str): A user Id
     name (str): The name of the state.
     description (str): It is a desciption of the place
     number_rooms (int): the number of rooms in the place
@@ -16,6 +15,7 @@ from models.base_model import BaseModel
     longitude (float): the longitude
     amenity_ids (str): the list of amnety id
 """
+
 
 class Place(BaseModel):
 
