@@ -3,22 +3,37 @@ import cmd
 from models.base_model import BaseModel
 from models.user import User
 
-
 class HBNBCommand(cmd.Cmd):
+
+    """
+    This class represents the command-line interpreter for the AirBnB clone.
+    """
     prompt = "(hbnb) "
     classmodel = {"BaseModel": BaseModel, "User": User}
 
     def do_quit(self, line):
+        """
+        Quit command to exit the program
+        """
         return True
 
     def do_EOF(self, line):
+        """
+        Handle EOF (End of File) input
+        """
         print("")
         return True
 
     def help_quit(self):
+        """
+        Display help message for the quit command
+        """
         print("Quit command to exit the program")
 
     def do_create(self, arg):
+        """
+        Create a new instance of a specified class
+        """
         if len(arg) == 0:
             print("** class name missing **")
         elif arg not in HBNBCommand.classmodel:
@@ -26,8 +41,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("you can create instance")
             new_instance = HBNBCommand.classmodel[arg]()
-            # with open("filename.json", "w", encoding = "UTF-8") as F_obj:
-            # dump(self.__file_path, F_obj)
             print("save")
             print(new_instance.id)
 
