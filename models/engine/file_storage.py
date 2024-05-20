@@ -72,7 +72,8 @@ class FileStorage:
         with open(self.__file_path, mode="r", encoding="UTF-8") as file_s:
             for line in file_s:
                 line = io.StringIO(line)
-                to_dict = json.load(line)
-                for key, value in to_dict.items():
-                    if obj_id == value:
-                        print("in search:",to_dict)
+                var = json.load(line)
+                for value in var.values():
+                    if value == obj_id:
+                        return var
+            return -1
