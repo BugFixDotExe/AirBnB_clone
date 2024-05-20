@@ -48,8 +48,10 @@ class FileStorage:
                     value, "created_at").strftime("%Y-%m-%dT%H:%M:%S.%f")
             dict_cpy["updated_at"] = getattr(
                     value, "updated_at").strftime("%Y-%m-%dT%H:%M:%S.%f")
-            dict_cpy["name"] = getattr(value, "name")
-            dict_cpy["my_number"] = getattr(value, "my_number")
+            if hasattr(value, "name"):
+                dict_cpy["name"] = getattr(value, "name")
+            if hasattr(value, "my_number"):
+                dict_cpy["my_number"] = getattr(value, "my_number")
         with open(self.__file_path, mode="a", encoding="UTF-8") as file_s:
             json.dump(dict_cpy, file_s)
             file_s.write("\n")
