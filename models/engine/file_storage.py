@@ -73,7 +73,10 @@ class FileStorage:
             for line in file_s:
                 line = io.StringIO(line)
                 var = json.load(line)
-                for value in var.values():
+                for key, value in var.items():
                     if value == obj_id:
-                        return var
+                         if key == "created_at" or key == "updated_at":
+                             var[key] = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                        #return var
+
             return -1
