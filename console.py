@@ -44,6 +44,22 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
+        """
+        print the string representation of an instance
+        """
+        line = arg.split(" ")
+        d = storage.all()
+        if len(line) == 0:
+            print("** class name missing **")
+        elif line[0] not in HBNBCommand.classmodel:
+            print("** class doesn't exist **")
+        elif line[0] in HBNBCommand.classmodel and len(line) < 2:
+            print("** instance id missing **")
+        elif line[0] in HBNBCommand.classmodel and line[1] != d:
+            print("** no instance found **")
+        else:
+            print("display instance")
+
         FileStorage().search(arg)
 
 
