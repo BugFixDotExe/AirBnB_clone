@@ -2,7 +2,7 @@
 import cmd
 from models.base_model import BaseModel
 from models.user import User
-
+from models.engine.file_storage import FileStorage
 class HBNBCommand(cmd.Cmd):
 
     """
@@ -39,13 +39,12 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in HBNBCommand.classmodel:
             print("** class doesn't exist **")
         else:
-            print("you can create instance")
             new_instance = HBNBCommand.classmodel[arg]()
-            print("save")
+            new_instance.save()
             print(new_instance.id)
 
     def do_show(self, arg):
-        pass
+        FileStorage().search(arg)
 
 
 if __name__ == '__main__':

@@ -67,3 +67,12 @@ class FileStorage:
                     line = io.StringIO(line)
                     to_dict = json.load(line)
                     BaseModel(**to_dict)
+    def search(self, obj_id):
+        with open(self.__file_path, mode="r", encoding="UTF-8") as file_s:
+            for line in file_s:
+                line = io.StringIO(line)
+                to_dict = json.load(line)
+                for key, value in to_dict.items():
+                    if obj_id == value:
+                        print("Match", obj_id)
+                        break
