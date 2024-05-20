@@ -47,5 +47,6 @@ class HBNBCommand(cmd.Cmd):
         FileStorage().search(arg)
 
 
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
