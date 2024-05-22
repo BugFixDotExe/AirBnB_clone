@@ -37,24 +37,20 @@ class FileStorage:
         self.__objects["{:s}.{:s}".format(
             obj.__class__.__name__, obj.id)] = obj
 
+
     def save(self):
         """
         save(self): Save the serialized objects to the JSON file.
         """
         dict_cpy = {}
         for key, value in self.__objects.items():
-            dict_cpy["id"] = getattr(value, "id")
-            dict_cpy["created_at"] = getattr(
-                    value, "created_at").strftime("%Y-%m-%dT%H:%M:%S.%f")
-            dict_cpy["updated_at"] = getattr(
-                    value, "updated_at").strftime("%Y-%m-%dT%H:%M:%S.%f")
-            if hasattr(value, "name"):
-                dict_cpy["name"] = getattr(value, "name")
-            if hasattr(value, "my_number"):
-                dict_cpy["my_number"] = getattr(value, "my_number")
+            dict_cpy = value.__dict__.copy()
+        dict_cpy["created_at"] = dict_cpy["created_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
+        dict_cpy["updated_at"] = dict_cpy["updated_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
         with open(self.__file_path, mode="a", encoding="UTF-8") as file_s:
             json.dump(dict_cpy, file_s)
             file_s.write("\n")
+
 
     def reload(self):
         from models.base_model import BaseModel
@@ -67,16 +63,3 @@ class FileStorage:
                     line = io.StringIO(line)
                     to_dict = json.load(line)
                     BaseModel(**to_dict)
-    def search(self, obj_id):
-        from models.base_model import BaseModel
-        with open(self.__file_path, mode="r", encoding="UTF-8") as file_s:
-            for line in file_s:
-                line = io.StringIO(line)
-                var = json.load(line)
-                for key, value in var.items():
-                    if value == obj_id:
-                         if key == "created_at" or key == "updated_at":
-                             var[key] = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                        #return var
-
-            return -1
