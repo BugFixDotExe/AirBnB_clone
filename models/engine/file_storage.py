@@ -1,8 +1,6 @@
-import os
 import json
 from datetime import datetime
-import io
-
+from models.base_model import BaseModel
 
 class FileStorage:
     """Class for storing and managing objects in a JSON file.
@@ -44,22 +42,19 @@ class FileStorage:
         """
         dict_cpy = {}
         for key, value in self.__objects.items():
-            dict_cpy = value.__dict__.copy()
-        dict_cpy["created_at"] = dict_cpy["created_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
-        dict_cpy["updated_at"] = dict_cpy["updated_at"].strftime("%Y-%m-%dT%H:%M:%S.%f")
-        with open(self.__file_path, mode="a", encoding="UTF-8") as file_s:
+            dict_cpy[key] = value.to_dict()
+        with open(self.__file_path, mode="w", encoding="UTF-8") as file_s:
             json.dump(dict_cpy, file_s)
-            file_s.write("\n")
-
 
     def reload(self):
-        from models.base_model import BaseModel
         """
         reload(self): Load serialized objects from the JSON file.
         """
-        if os.path.exists(self.__file_path):
+        try:
             with open(self.__file_path, mode="r", encoding="UTF-8") as file_s:
-                for line in file_s:
-                    line = io.StringIO(line)
-                    to_dict = json.load(line)
-                    BaseModel(**to_dict)
+                ret_dict = json.load(file_s)
+                for key, value in ret_dict.items():
+                    ret = BaseModel(**value)
+                    self.__objects[key] = ret
+        except Exception as e:
+            return
